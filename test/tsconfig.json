@@ -14,8 +14,7 @@
     "target": "es5",
     "types": [
       "node",
-      "core-js",
-      "lodash"
+      "core-js"
     ]
   }
 }

@@ -26,18 +26,14 @@
     "@types/lodash": "4.14.55",
     "@types/mocha": "^2.2.38",
     "@types/node": "^6.0.41",
-    "awesome-typescript-loader": "^3.0.0-beta.17",
     "mocha": "^3.2.0",
-    "nodemon": "^1.11.0",
     "ts-node": "^2.0.0",
     "tslint": "^3.15.0-dev.0",
     "tslint-eslint-rules": "^1.5.0",
     "tslint-microsoft-contrib": "^2.0.12",
     "typescript": "^2.2.2"
   },
-  "dependencies": {
-    "lodash": "^4.17.4"
-  },
+  "dependencies": {},
   "homepage": "https://github.com/mjewell/configurable-function#readme",
   "directories": {
     "test": "test"

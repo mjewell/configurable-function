@@ -119,6 +119,13 @@ describe('createConfigurableFunction', () => {
       const splattedSubtractFrom3 = subtractFrom3.splat('a', 'b');
       assert.equal(splattedSubtractFrom3(4, 1), 3);
     });
+
+    it('should not override defaulted values with undefined if you dont provide all args', () => {
+      const configurableSubtract = createConfigurableFunction(subtract);
+      const subtractFrom3 = configurableSubtract.default({ b: 3 });
+      const splattedSubtractFrom3 = subtractFrom3.splat('a', 'b');
+      assert.equal(splattedSubtractFrom3(4), 1);
+    });
   });
 
   describe('splatLast', () => {

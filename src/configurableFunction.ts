@@ -29,9 +29,9 @@ function throwIfParamsAreLocked(newParams: IMap<any> | string[], lockedParams: I
 }
 
 function createNamedArgs(propNames: string[], args: any[]) {
-  return propNames.reduce((props, propName, i) => ({
+  return args.reduce((props, arg, i) => ({
     ...props,
-    [propName]: args[i]
+    [propNames[i]]: arg
   }), {});
 }
 
@@ -89,7 +89,7 @@ function createConfigurableFunctionBase<T>(
   defaultParams: IMap<any>,
   strict?: boolean
 ) {
-  const configurableFunction: IConfigurableFunction<T> = <IConfigurableFunction<T>> function (params?: IMap<any>) {
+  const configurableFunction: IConfigurableFunction<T> = <IConfigurableFunction<T>>function (params?: IMap<any>) {
     const mergedParams = mergeParams(params || {}, lockedParams, defaultParams);
     return func(mergedParams);
   };

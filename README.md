@@ -43,11 +43,11 @@ Configurable functions provide the following API
 `lock` takes an object with params to lock down and returns a new configurable function where the locked values cannot be overridden.
 
 ```
-const sum = ({ a, b, c }) => a + b + c;
-const configurableSum = createConfigurableFunction(sum);
-const sumWith1 = configurableSum.lock({ a: 1 })
-// 1 + 4 + 5 because 'a' cannot be overridden
-sumWith1({ a: 3, b: 4, c: 5}); // 10
+const concat = ({ a, b, c }) => `${a} ${b} ${c}`;
+const configurableConcat = createConfigurableFunction(concat);
+const concatWith1 = configurableConcat.lock({ a: 1 })
+concatWith1({ b: 4, c: 5}); // "1 4 5"
+concatWith1({ a: 3, b: 4, c: 5}); // "1 4 5"
 ```
 
 ### `default`
@@ -55,11 +55,11 @@ sumWith1({ a: 3, b: 4, c: 5}); // 10
 `default` takes an object with params to set defaults for and returns a new configurable function where the defaulted values can be overridden, but are no longer required.
 
 ```
-const sum = ({ a, b, c }) => a + b + c;
-const configurableSum = createConfigurableFunction(sum);
-const sumWith1 = configurableSum.lock({ a: 1, b: 2 })
-// 1 + 4 + 5 because 'a' has a default and 'b' is overridden
-sumWith1({ b: 4, c: 5}); // 10
+const concat = ({ a, b, c }) => `${a} ${b} ${c}`;
+const configurableConcat = createConfigurableFunction(concat);
+const concatWith1 = configurableConcat.default({ a: 1 })
+concatWith1({ b: 4, c: 5}); // "1 4 5"
+concatWith1({ a: 3, b: 4, c: 5}); // "3 4 5"
 ```
 
 ### `splat`
@@ -67,11 +67,11 @@ sumWith1({ b: 4, c: 5}); // 10
 `splat` takes a series of strings as arguments, where each string refers to the name of an argument. It returns a regular function which takes each of those params, in order.
 
 ```
-const sum = ({ a, b, c }) => a + b + c;
-const configurableSum = createConfigurableFunction(sum);
-const sumWith1 = configurableSum.lock({ a: 1 })
-const sum2Args = sumWith1.splat('b', 'c');
-sum2Args(4, 5); // 10;
+const concat = ({ a, b, c }) => `${a} ${b} ${c}`;
+const configurableConcat = createConfigurableFunction(concat);
+const concatWith1 = configurableConcat.lock({ a: 1 })
+const concatSplat = concatWith1.splat('b', 'c');
+concatSplat(4, 5); // "1 4 5"
 ```
 
 ### `splatLast`

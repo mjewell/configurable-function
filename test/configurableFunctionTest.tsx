@@ -82,6 +82,30 @@ describe('createConfigurableFunction', () => {
       assert.equal(subtractFrom3Optionally({ a: 5, b: 1 }), 4);
       assert.equal(configurableSubtract({ a: 5, b: 2 }), 3);
     });
+
+    it('should override the property entirely by default', () => {
+      function funcWithOptions({ options }: { options: { x: number, y: number } }) {
+        return options;
+      }
+
+      const configurableFunc = createConfigurableFunction(funcWithOptions);
+      const configurableFuncWithDefault = configurableFunc.default({ options: { x: 1 } });
+      const result = configurableFuncWithDefault({ options: { y: 2 } });
+      assert.equal(result.x, undefined);
+      assert.equal(result.y, 2);
+    });
+
+    it.skip('should merge the properties when the merge option is true', () => {
+      function funcWithOptions({ options }: { options: { x: number, y: number } }) {
+        return options;
+      }
+
+      const configurableFunc = createConfigurableFunction(funcWithOptions);
+      const configurableFuncWithDefault = configurableFunc.default({ options: { x: 1 } }); // pass merge option here
+      const result = configurableFuncWithDefault({ options: { y: 2 } });
+      assert.equal(result.x, 1);
+      assert.equal(result.y, 2);
+    });
   });
 
   describe('splat', () => {

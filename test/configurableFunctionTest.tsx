@@ -1,9 +1,11 @@
-import { createConfigurableFunction } from '../src';
-import * as assert from 'assert';
 import 'mocha';
 
+import * as assert from 'assert';
+
+import { createConfigurableFunction } from '../src';
+
 describe('createConfigurableFunction', () => {
-  const subtract = (args: { a: number, b: number }) => {
+  const subtract = (args: { a: number; b: number }) => {
     return args.a - args.b;
   };
 
@@ -22,7 +24,10 @@ describe('createConfigurableFunction', () => {
 
     it('should allow you to specify many arguments at once', () => {
       const configurableSubtract = createConfigurableFunction(subtract);
-      const subtractWithAllArgsLocked = configurableSubtract.lock({ a: 10, b: 4 });
+      const subtractWithAllArgsLocked = configurableSubtract.lock({
+        a: 10,
+        b: 4
+      });
       assert.equal(subtractWithAllArgsLocked({ a: 5, b: 2 }), 6);
     });
 
@@ -65,7 +70,10 @@ describe('createConfigurableFunction', () => {
 
     it('should allow you to specify many arguments at once', () => {
       const configurableSubtract = createConfigurableFunction(subtract);
-      const subtractWithAllArgsDefaulted = configurableSubtract.default({ a: 10, b: 3 });
+      const subtractWithAllArgsDefaulted = configurableSubtract.default({
+        a: 10,
+        b: 3
+      });
       assert.equal(subtractWithAllArgsDefaulted(), 7);
     });
 
@@ -84,24 +92,36 @@ describe('createConfigurableFunction', () => {
     });
 
     it('should override the property entirely by default', () => {
-      function funcWithOptions({ options }: { options: { x: number, y: number } }) {
+      function funcWithOptions({
+        options
+      }: {
+        options: { x: number; y: number };
+      }) {
         return options;
       }
 
       const configurableFunc = createConfigurableFunction(funcWithOptions);
-      const configurableFuncWithDefault = configurableFunc.default({ options: { x: 1 } });
+      const configurableFuncWithDefault = configurableFunc.default({
+        options: { x: 1 }
+      });
       const result = configurableFuncWithDefault({ options: { y: 2 } });
       assert.equal(result.x, undefined);
       assert.equal(result.y, 2);
     });
 
     it.skip('should merge the properties when the merge option is true', () => {
-      function funcWithOptions({ options }: { options: { x: number, y: number } }) {
+      function funcWithOptions({
+        options
+      }: {
+        options: { x: number; y: number };
+      }) {
         return options;
       }
 
       const configurableFunc = createConfigurableFunction(funcWithOptions);
-      const configurableFuncWithDefault = configurableFunc.default({ options: { x: 1 } }); // pass merge option here
+      const configurableFuncWithDefault = configurableFunc.default({
+        options: { x: 1 }
+      }); // pass merge option here
       const result = configurableFuncWithDefault({ options: { y: 2 } });
       assert.equal(result.x, 1);
       assert.equal(result.y, 2);
@@ -156,7 +176,7 @@ describe('createConfigurableFunction', () => {
     type MapParams = {
       array: string[];
       iteratee: (el: string) => any;
-    }
+    };
     const map = ({ array, iteratee }: MapParams) => array.map(iteratee);
 
     it('should create a new function which can be called with regular params', () => {
@@ -187,7 +207,8 @@ describe('createConfigurableFunction', () => {
 
       assert.throws(
         () => configurableMapToUpperCase.splatLast('array'),
-        (err: Error) => err.message === 'These keys have already been locked: array'
+        (err: Error) =>
+          err.message === 'These keys have already been locked: array'
       );
     });
 
@@ -204,7 +225,10 @@ describe('createConfigurableFunction', () => {
     it('should allow you to splat multiple parameters', () => {
       const configurableMap = createConfigurableFunction(map);
       const mapToUpperCase = configurableMap.splatLast('iteratee', 'array');
-      assert.deepEqual(mapToUpperCase((x: string) => x.toUpperCase(), 'hello', 'world'), ['HELLO', 'WORLD']);
+      assert.deepEqual(
+        mapToUpperCase((x: string) => x.toUpperCase(), 'hello', 'world'),
+        ['HELLO', 'WORLD']
+      );
     });
   });
 });
